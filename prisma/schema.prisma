@@ -72,3 +72,64 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+
+///////// Airtable Database Schema /////////
+// Only need TEXT and NUMBER field types for now
+enum FieldType {
+    TEXT
+    // ATTACHMENT
+    // CHECKBOX
+    // MULTIPLE_SELECT
+    // SINGLE_SELECT
+    // USER
+    // DATE
+    // PHONE_NUMBER
+    // EMAIL
+    // URL
+    NUMBER
+    // CURRENCY
+    // PERCENT
+    // DURATION
+    // RATING
+}
+
+model Base {
+    id          String  @id @default(cuid())
+    name        String  @default("Untitled Base")
+    tables      Table[] @relation("BaseTables")
+}
+
+model Table {
+    id          String      @id @default(cuid())
+    name        String
+    baseId      String      // Foreign key to Base
+    base        Base        @relation("BaseTables", fields: [baseId], references: [id])
+
+    ////// Table Contents //////
+    fields      Field[]     @relation("TableFields")
+    records     Record[]    @relation("TableRecords")
+}
+
+model Field {
+    id          String  @id @default(cuid())
+    tableId     String  // Foreign key to Table
+    table       Table   @relation("TableFields", fields: [tableId], references: [id])
+
+    ////// Field Contents //////
+    name        String  @default("Label")
+    type        FieldType
+    specs       Json?   // Formatting specifications
+    position    Int
+}
+
+model Record {
+    id          String  @id @default(cuid())
+    tableId     String  // Foreign key to Table
+    table       Table   @relation("TableRecords", fields: [tableId], references: [id])
+
+    ////// Record Contents //////
+    data        Json    // stores values in json format, i.e. { field1: value1, field2: value2 }
+
+    @@index([tableId])  // index for faster lookups
+}
