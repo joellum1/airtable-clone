@@ -34,7 +34,7 @@ try {
     const records = await getRecords();
     console.log(`records: ${records}`);
 } catch (e) {
-    console.log(`error: ${e}`);
+    // console.log(`error: ${e}`);
 } finally {
     await prisma.$disconnect();
 };
