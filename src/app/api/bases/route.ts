@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 // list all bases
 export const GET = async () => {
     const bases = await prisma.base.findMany();
+    
     return Response.json(bases);
 };
 
@@ -13,5 +14,6 @@ export const POST = async () => {
     const newBase = await prisma.base.create({
         data: {}
     });
+
     return Response.json(newBase);
 };
