@@ -23,7 +23,7 @@ export const PATCH = async (req: Request, { params }: { params: Promise<{ id: st
 };
 
 // delete base by id
-export const DELETE = async (req: Request, { params }: { params: Promise<{ id: String }> }) => {
+export const DELETE = async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
     const res = await prisma.base.delete({
         where: { id }
