@@ -104,7 +104,7 @@ model Table {
     id          String      @id @default(cuid())
     name        String
     baseId      String      // Foreign key to Base
-    base        Base        @relation("BaseTables", fields: [baseId], references: [id])
+    base        Base        @relation("BaseTables", fields: [baseId], references: [id], onDelete: Cascade)
 
     ////// Table Contents //////
     fields      Field[]     @relation("TableFields")
@@ -114,7 +114,7 @@ model Table {
 model Field {
     id          String  @id @default(cuid())
     tableId     String  // Foreign key to Table
-    table       Table   @relation("TableFields", fields: [tableId], references: [id])
+    table       Table   @relation("TableFields", fields: [tableId], references: [id], onDelete: Cascade)
 
     ////// Field Contents //////
     name        String  @default("Label")
@@ -126,7 +126,7 @@ model Field {
 model Record {
     id          String  @id @default(cuid())
     tableId     String  // Foreign key to Table
-    table       Table   @relation("TableRecords", fields: [tableId], references: [id])
+    table       Table   @relation("TableRecords", fields: [tableId], references: [id], onDelete: Cascade)
 
     ////// Record Contents //////
     data        Json    // stores values in json format, i.e. { field1: value1, field2: value2 }
