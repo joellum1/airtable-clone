@@ -15,8 +15,8 @@ export const useBases = () => {
                 const res = await fetch("api/bases");
                 if (!res.ok) throw new Error("Failed to fetch bases");
 
-                const data: BaseType[] = await res.json();
-                setBases(data);
+                const data = await res.json();
+                setBases(data as BaseType[]);
             } catch (err) {
                 const msg = err instanceof Error ? err.message : "Failed to fetch bases";
                 window.alert(msg);
