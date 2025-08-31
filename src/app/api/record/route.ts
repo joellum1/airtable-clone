@@ -21,7 +21,8 @@ export const GET = async (req: Request) => {
     }
     
     const records = await prisma.record.findMany({
-        where: { tableId }
+        where: { tableId },
+        orderBy: { position: "asc" }
     });
 
     return Response.json(records);

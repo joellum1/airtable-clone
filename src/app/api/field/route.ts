@@ -21,7 +21,8 @@ export const GET = async (req: Request) => {
     }
     
     const fields = await prisma.field.findMany({
-        where: { tableId }
+        where: { tableId },
+        orderBy: { position: "asc" }
     });
 
     return Response.json(fields);
