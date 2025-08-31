@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, FieldType } from '@prisma/client';
 
 declare global {
     var prisma: PrismaClient | undefined;
@@ -6,3 +6,5 @@ declare global {
 
 // create new prisma client if doesn't already exist
 export const prisma = globalThis.prisma ?? new PrismaClient();
+
+export { FieldType };   // re-exporting for cleanliness
