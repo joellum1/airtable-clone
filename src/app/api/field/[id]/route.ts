@@ -1,11 +1,12 @@
 import { prisma, type FieldType } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 // route - api/field/:id
 
 interface PatchRequestBody {
     name: string;
     type: FieldType;
-    specs?: Record<string, unknown> | null;
+    specs?: Prisma.JsonObject | null;
 }
 
 // update a field
