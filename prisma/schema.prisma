@@ -130,6 +130,7 @@ model Record {
 
     ////// Record Contents //////
     data        Json    // stores values in json format, i.e. { field1: value1, field2: value2 }
+    position    Int
 
     @@index([tableId])  // index for faster lookups
 }
