@@ -1,4 +1,4 @@
-import { prisma, FieldType } from "@/lib/prisma";
+import { prisma, type FieldType } from "@/lib/prisma";
 
 // route - api/field?tableId=<tableId>
 

@@ -1,11 +1,11 @@
-import { prisma, FieldType } from "@/lib/prisma";
+import { prisma, type FieldType } from "@/lib/prisma";
 
 // route - api/field/:id
 
 interface PatchRequestBody {
     name: string;
     type: FieldType;
-    specs?: Record<string, any> | null;
+    specs?: Record<string, unknown> | null;
 }
 
 // update a field
