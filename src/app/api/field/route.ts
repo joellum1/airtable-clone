@@ -39,7 +39,7 @@ export const POST = async (req: Request) => {
         );
     }
 
-    const position = await prisma.field.count({
+    const prevPosition = await prisma.field.count({
         where: { tableId },
     });
 
@@ -48,7 +48,7 @@ export const POST = async (req: Request) => {
             tableId, 
             name: name ?? undefined, 
             type, 
-            position
+            position: prevPosition + 1  // 1-indexed
         }
     });
 
