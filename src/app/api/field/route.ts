@@ -3,9 +3,9 @@ import { prisma, FieldType } from "@/lib/prisma";
 // route - api/field?tableId=<tableId>
 
 interface PostRequestBody {
-    tableId: string,
-    name?: string,
-    type: FieldType
+    tableId: string;
+    name?: string;
+    type: FieldType;
 } 
 
 // list all fields in a table
