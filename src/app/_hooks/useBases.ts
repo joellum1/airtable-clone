@@ -13,16 +13,18 @@ export const useBases = () => {
         const fetchBases = async () => {
             try {
                 const res = await fetch("api/bases");
+                if (!res.ok) throw new Error("Failed to fetch bases");
+
                 const data: BaseType[] = await res.json();
                 setBases(data);
-            } catch (err: any) {
-                window.alert(err.message);
+            } catch (err) {
+                window.alert(err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBases();
+        void fetchBases();
     }, []);
 
     return { bases, loading }
