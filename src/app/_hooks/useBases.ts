@@ -18,7 +18,8 @@ export const useBases = () => {
                 const data: BaseType[] = await res.json();
                 setBases(data);
             } catch (err) {
-                window.alert(err);
+                const msg = err instanceof Error ? err.message : "Failed to fetch bases";
+                window.alert(msg);
             } finally {
                 setLoading(false);
             }
