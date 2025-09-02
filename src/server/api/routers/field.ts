@@ -1,0 +1,71 @@
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+
+const FieldTypeSchema = z.enum(["TEXT", "NUMBER"]);
+
+const JsonSchema = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+  z.null(),
+  z.record(z.any()), // Allows nested objects
+  z.array(z.any()), // Allows arrays
+]).nullable();
+
+export const fieldRouter = createTRPCRouter({
+    getAll: protectedProcedure
+        .input(z.object({ tableId: z.string() }))
+        .query(({ ctx, input }) => {
+            return ctx.db.field.findMany({
+                where: { tableId: input.tableId },
+                orderBy: { position: "asc" }
+            });
+        }),
+
+    getById: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .query(({ ctx, input }) => {
+            return ctx.db.field.findUnique({
+                where: { id: input.id }
+            });
+        }),
+
+    create: protectedProcedure
+        .input(z.object({ tableId: z.string(), name: z.string().min(1).optional(), type: FieldTypeSchema}))
+        .mutation(async ({ ctx, input }) => {
+            const numFields = await ctx.db.field.count({
+                where: { tableId: input.tableId }
+            });
+            const position = numFields + 1;
+
+            return ctx.db.field.create({
+                data: {
+                    tableId: input.tableId,
+                    name: input.name ?? undefined,
+                    type: input.type,
+                    position: position
+                }
+            });
+        }),
+
+    update: protectedProcedure
+        .input(z.object({ id: z.string(), name: z.string().min(1), type: FieldTypeSchema, specs: JsonSchema.optional() }))
+        .mutation(({ ctx, input }) => {
+            return ctx.db.field.update({
+                where: { id: input.id },
+                data: { 
+                    name: input.name,
+                    type: input.type,
+                    specs: input.specs ?? undefined
+                }
+            });
+        }),
+
+    delete: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(({ ctx, input }) => {
+            return ctx.db.field.delete({
+                where: { id: input.id }
+            });
+        })
+});
