@@ -7,9 +7,9 @@ export default async function Home() {
   const session = getServerAuthSession(authConfig);
 
   // Redirect logged-in users to /dashboard
-  if (session) {
-    redirect("/bases");
-  }
+  // if (session) {
+  //   redirect("/bases");
+  // }
 
   return (
     <main className="flex min-h-screen">
