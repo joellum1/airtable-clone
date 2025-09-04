@@ -4,7 +4,7 @@ import { authConfig } from "@/server/auth/config";
 import SignInForm from "./_components/SignInForm";
 
 export default async function Home() {
-  const session = await getServerAuthSession(authConfig);
+  const session = getServerAuthSession(authConfig);
 
   // Redirect logged-in users to /dashboard
   if (session) {
