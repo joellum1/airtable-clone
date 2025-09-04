@@ -4,7 +4,7 @@ export default function BaseCard({ base }: { base: BaseType }) {
 
   return (
     <div>
-      <h2>{base.name}</h2>
+      <h3>{base.name}</h3>
       <p>Id: {base.id}</p>
     </div>
   );
