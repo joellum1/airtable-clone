@@ -35,7 +35,7 @@ export const baseRouter = createTRPCRouter({
         }),
 
     update: protectedProcedure
-        .input(z.object({ id: z.string(), name: z.string().min(1) }))
+        .input(z.object({ id: z.string(), name: z.string().min(1), time: z.date().optional() }))
         .mutation(async ({ ctx, input }) => {
             const base = await ctx.db.base.findUnique({
                 where: { id: input.id }
@@ -47,7 +47,10 @@ export const baseRouter = createTRPCRouter({
 
             return ctx.db.base.update({
                 where: { id: input.id },
-                data: { name: input.name }
+                data: { 
+                    name: input.name,
+                    lastOpened: input.time ?? undefined
+                }
             });
         }),
 
