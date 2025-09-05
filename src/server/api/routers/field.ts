@@ -3,6 +3,15 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 const FieldTypeSchema = z.enum(["TEXT", "NUMBER"]);
 
+const JsonSchema = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+  z.null(),
+  z.record(z.any()), // Allows nested objects
+  z.array(z.any()), // Allows arrays
+]).nullable();
+
 export const fieldRouter = createTRPCRouter({
     getAll: protectedProcedure
         .input(z.object({ tableId: z.string() }))
