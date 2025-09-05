@@ -95,9 +95,11 @@ enum FieldType {
 }
 
 model Base {
-    id          String  @id @default(cuid())
-    name        String  @default("Untitled Base")
-    tables      Table[] @relation("BaseTables")
+    id          String      @id @default(cuid())
+    name        String      @default("Untitled Base")
+    tables      Table[]     @relation("BaseTables")
+    createdBy   String
+    lastOpened  DateTime    @default(now())
 }
 
 model Table {
@@ -108,29 +110,29 @@ model Table {
 
     ////// Table Contents //////
     fields      Field[]     @relation("TableFields")
-    records     Record[]    @relation("TableRecords")
 }
 
 model Field {
-    id          String  @id @default(cuid())
+    id          String      @id @default(cuid())
     tableId     String  // Foreign key to Table
-    table       Table   @relation("TableFields", fields: [tableId], references: [id], onDelete: Cascade)
+    table       Table       @relation("TableFields", fields: [tableId], references: [id], onDelete: Cascade)
 
     ////// Field Contents //////
-    name        String  @default("Label")
+    name        String      @default("Label")
     type        FieldType
     specs       Json?   // Formatting specifications
     position    Int
+    cells       Cell[]      @relation("FieldCells")
 }
 
-model Record {
-    id          String  @id @default(cuid())
-    tableId     String  // Foreign key to Table
-    table       Table   @relation("TableRecords", fields: [tableId], references: [id], onDelete: Cascade)
+model Cell {
+    id          String      @id @default(cuid())
+    row         Int
+    fieldId     String  // fieldId
+    field       Field       @relation("FieldCells", fields: [fieldId], references: [id], onDelete: Cascade)
 
-    ////// Record Contents //////
-    data        Json    // stores values in json format, i.e. { field1: value1, field2: value2 }
-    position    Int
+    ////// Cell Contents ////// 
+    value       String? // use Field table's type attribute to determine value type
 
-    @@index([tableId])  // index for faster lookups
+    @@unique([row, fieldId])
 }

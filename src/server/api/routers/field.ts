@@ -3,15 +3,6 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 const FieldTypeSchema = z.enum(["TEXT", "NUMBER"]);
 
-const JsonSchema = z.union([
-  z.string(),
-  z.number(),
-  z.boolean(),
-  z.null(),
-  z.record(z.any()), // Allows nested objects
-  z.array(z.any()), // Allows arrays
-]).nullable();
-
 export const fieldRouter = createTRPCRouter({
     getAll: protectedProcedure
         .input(z.object({ tableId: z.string() }))
@@ -38,7 +29,7 @@ export const fieldRouter = createTRPCRouter({
             });
             const position = numFields + 1;
 
-            return ctx.db.field.create({
+            const newField = await ctx.db.field.create({
                 data: {
                     tableId: input.tableId,
                     name: input.name ?? undefined,
@@ -46,6 +37,26 @@ export const fieldRouter = createTRPCRouter({
                     position: position
                 }
             });
+
+            // retrieve all rows and add cells to them
+            const existingRows = await ctx.db.cell.findMany({
+                where: { field: { tableId: input.tableId } },
+                select: { row: true },
+                distinct: ["row"],
+            });
+
+            // add empty cells for each row
+            if (existingRows.length > 0) {
+                await ctx.db.cell.createMany({
+                    data: existingRows.map((r) => ({
+                        row: r.row,
+                        fieldId: newField.id,
+                        value: null,
+                    })),
+                });
+            }
+
+            return newField
         }),
 
     update: protectedProcedure
