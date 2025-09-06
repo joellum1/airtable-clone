@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation";
 import getServerAuthSession from "next-auth";
 import { authConfig } from "@/server/auth/config";
+
 import SignInForm from "./_components/SignInForm";
 
-export default async function Home() {
+export default async function Landing() {
   const session = getServerAuthSession(authConfig);
 
-  // Redirect logged-in users to /dashboard
-  // if (session) {
-  //   redirect("/bases");
-  // }
+  // Redirect logged-in users to /home
+  if (session) {
+    redirect("/home");
+  }
 
   return (
     <main className="flex min-h-screen">

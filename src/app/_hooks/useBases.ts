@@ -1,34 +1,16 @@
-import { useState, useEffect } from "react";
+"use client";
 
-interface BaseType {
+import { api } from "@/trpc/react";
+
+export interface BaseType {
     id: string;
     name: string;
+    createdBy: string,
+    lastOpened: Date
 }
 
 export const useBases = () => {
-    const [bases, setBases] = useState<BaseType[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { data: bases = [], isLoading } = api.base.getAll.useQuery();
 
-    useEffect(() => {
-        const fetchBases = async () => {
-            try {
-                const res = await fetch("api/bases");
-                if (!res.ok) throw new Error("Failed to fetch bases");
-
-                const data = await res.json() as BaseType[];
-                setBases(data);
-            } catch (err) {
-                const msg = err instanceof Error ? err.message : "Failed to fetch bases";
-                window.alert(msg);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        void fetchBases();
-    }, []);
-
-    return { bases, loading }
+    return { bases, loading: isLoading }
 }
-
-export { type BaseType };

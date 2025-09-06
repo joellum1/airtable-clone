@@ -56,7 +56,7 @@ export default function SignInForm() {
         <div>
           <button 
             onClick={handleGoogleSignIn}
-            className="flex items-center justify-center w-full h-[40px] border-solid border border-gray-300 hover:bg-gray-50 rounded-md pl-[0.75rem] pr-[0.75rem] gap-[10px]"
+            className="flex items-center justify-center w-full h-[40px] border-solid border border-gray-300 rounded-md pl-[0.75rem] pr-[0.75rem] gap-[10px] hover:cursor-pointer hover:shadow-sm"
           >
             <svg className="w-[16px] h-[16px]" viewBox="0 0 18 18">
               <path d="M17.64,9.20454545 C17.64,8.56636364 17.5827273,7.95272727 17.4763636,7.36363636 L9,7.36363636 L9,10.845 L13.8436364,10.845 C13.635,11.97 13.0009091,12.9231818 12.0477273,13.5613636 L12.0477273,15.8195455 L14.9563636,15.8195455 C16.6581818,14.2527273 17.64,11.9454545 17.64,9.20454545 L17.64,9.20454545 Z" fill="#4285F4"/>
