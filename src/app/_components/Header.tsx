@@ -3,7 +3,7 @@ import { Avatar } from "antd";
 
 export default function Header() {
   return (
-    <div className="w-full h-[56px] pl-[8px] pr-[16px] flex justify-between items-center shadow-[0_2px_4px_0_rgba(0,0,0,0.08)]">
+    <div className="w-full h-[56px] pl-[8px] pr-[16px] flex justify-between items-center border border-gray-200 shadow-xs z-10">
       {/* Left Side */}
       <div className='flex items-center'>
         {/* Expand Sidebar Icon */}

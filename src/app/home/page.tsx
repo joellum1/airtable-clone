@@ -3,6 +3,7 @@ import getServerAuthSession from "next-auth";
 import { authConfig } from "@/server/auth/config";
 
 import Header from "../_components/Header";
+import Sidebar from "../_components/Sidebar";
 import BaseList from "../_components/bases/BaseList";
 
 export default function Home() {
@@ -13,10 +14,13 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen overflow-hidden">
       <Header />
-      <div>
-        <BaseList />
+      <div className="flex flex-row h-full">
+        <Sidebar />
+        <div className="w-full bg-[#f8fafc]">
+          <BaseList />
+        </div>
       </div>
     </div>
   );
